@@ -1,19 +1,36 @@
 [
   {
-    "name": "Submit Design Specs",
+    "name": "design specs flow collects typography, icon, and palette",
     "steps": [
       {
+        "send": { "callback": "design:specs" },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "Provide text/visual requirements for logo"
-            }
-          }
-        ],
-        "send": {
-          "callback": "design:specs"
-        }
+          { "method": "sendMessage", "payload": { "text": "What typography style do you prefer? (e.g. bold serif, clean sans-serif, script)" } }
+        ]
+      },
+      {
+        "send": { "text": "Bold serif" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "What icon style works for you? (e.g. minimalist, detailed illustration, abstract)" } }
+        ]
+      },
+      {
+        "send": { "text": "Minimalist" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "What color palette should we use? (e.g. warm earth tones, classic red and black, custom hex codes)" } }
+        ]
+      },
+      {
+        "send": { "text": "Classic red and black" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Design specs collected:\n\nTypography: Bold serif\nIcon style: Minimalist\nColor palette: Classic red and black\n\nConfirm to generate initial mockup?" } }
+        ]
+      },
+      {
+        "send": { "callback": "design:confirm:yes" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Design specs saved. Initial mockup is being generated — you'll be notified when it's ready." } }
+        ]
       }
     ]
   }

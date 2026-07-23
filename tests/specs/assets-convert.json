@@ -1,19 +1,30 @@
 [
   {
-    "name": "Request Format Conversion",
+    "name": "assets convert flow selects format and resolution",
     "steps": [
       {
+        "send": { "callback": "assets:convert" },
         "expect": [
-          {
-            "method": "sendMessage",
-            "payload": {
-              "text": "Generate specific file formats"
-            }
-          }
-        ],
-        "send": {
-          "callback": "assets:convert"
-        }
+          { "method": "sendMessage", "payload": { "text": "Which format do you need?" } }
+        ]
+      },
+      {
+        "send": { "callback": "assets:fmt:svg" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Format: SVG\n\nNow pick a resolution:" } }
+        ]
+      },
+      {
+        "send": { "callback": "assets:res:300 DPI (print)" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Ready to convert:\n\nFormat: SVG\nResolution: 300 DPI (print)\n\nConfirm to generate the file?" } }
+        ]
+      },
+      {
+        "send": { "callback": "assets:confirm:yes" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Conversion complete.\n\nFormat: SVG\nResolution: 300 DPI (print)\n\nDownload your file below." } }
+        ]
       }
     ]
   }
